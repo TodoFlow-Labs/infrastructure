@@ -17,6 +17,12 @@ cockroachdb:
   statefulset:
     replicas: 1
 
+  podDisruptionBudget:
+    enabled: true
+    apiVersion: policy/v1     # force the new API
+    minAvailable: "50%"
+
+    
 hello-world:
   replicaCount: 1
   image:
