@@ -14,11 +14,8 @@ nats:
     enabled: true
 
 cockroachdb:
-  statefulset:
-    replicas: 3
-
-  initdb:
-    enabled: true
+  conf:
+    single-node: true
 
   storage:
     persistentVolume:
