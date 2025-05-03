@@ -1,0 +1,9 @@
+# charts/traefik/Chart.yaml
+apiVersion: v2
+name: traefik
+version: 0.1.0
+appVersion: "2.10.1"
+dependencies:
+  - name: traefik
+    version: "18.1.4"
+    repository: "https://helm.traefik.io/traefik"

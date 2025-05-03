@@ -1,0 +1,6 @@
+# charts/traefik/values.yaml
+service:
+  type: ClusterIP
+ingressRoute:
+  dashboard:
+    enabled: true
