@@ -7,9 +7,9 @@ spec:
   project: todoflow-lab
   source:
     repoURL: git@github.com:todoflow-labs/infrastructure.git
-    targetRevision: main         # your Git branch
-    path: charts 
-    chart: charts/charts              # specify the path to the chart
+    targetRevision: main
+    # path: charts 
+    chart: charts              # specify the path to the chart
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
