@@ -5,9 +5,6 @@ traefik:
     dashboard:
       enabled: true
 
-linkerd2:
-  global:
-    namespace: linkerd
 
 nats:
   jetstream:
@@ -23,6 +20,7 @@ cockroachdb:
   storage:
     persistentVolume:
       size: 10Gi
+
 
 hello-world:
   replicaCount: 1
