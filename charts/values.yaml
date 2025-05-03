@@ -1,0 +1,21 @@
+traefik:
+  service:
+    type: ClusterIP
+  ingressRoute:
+    dashboard:
+      enabled: true
+
+
+nats:
+  jetstream:
+    enabled: true
+
+cockroachdb:
+  statefulset:
+    replicas: 1
+
+hello-world:
+  replicaCount: 1
+  image:
+    repository: nginx
+    tag: stable
