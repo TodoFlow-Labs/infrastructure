@@ -17,6 +17,9 @@ cockroachdb:
   statefulset:
     replicas: 1
 
+  storage:
+    persistentVolume:
+      size: 10Gi
 
 hello-world:
   replicaCount: 1
