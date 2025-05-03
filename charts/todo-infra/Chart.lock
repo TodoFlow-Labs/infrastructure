@@ -7,9 +7,9 @@ dependencies:
   version: 1.3.5
 - name: cockroachdb
   repository: https://charts.cockroachdb.com
-  version: 6.0.0
+  version: 16.0.7
 - name: hello-world
   repository: file://../../hello-world
   version: 0.1.0
-digest: sha256:6c332931a43b830c8003d25e9df8c8fadcf4a52bcaf34441ad4d09b191f50263
-generated: "2025-05-03T20:52:43.40009819+02:00"
+digest: sha256:43e3ea70c4c7e2865befff21524104618ada1ba9a3d307fac02d812d2e68b72f
+generated: "2025-05-03T21:07:12.040335329+02:00"
