@@ -2,9 +2,6 @@ dependencies:
 - name: traefik
   repository: https://traefik.github.io/charts
   version: 35.2.0
-- name: linkerd2
-  repository: https://helm.linkerd.io/stable
-  version: 2.11.5
 - name: nats
   repository: https://nats-io.github.io/k8s/helm/charts/
   version: 1.3.5
@@ -14,5 +11,5 @@ dependencies:
 - name: hello-world
   repository: file://../../hello-world
   version: 0.1.0
-digest: sha256:87192600aea04aa0a0afdee8a0482546de9a4d06ac350d7c41e0573f04567117
-generated: "2025-05-03T20:37:09.348507204+02:00"
+digest: sha256:6c332931a43b830c8003d25e9df8c8fadcf4a52bcaf34441ad4d09b191f50263
+generated: "2025-05-03T20:52:43.40009819+02:00"
