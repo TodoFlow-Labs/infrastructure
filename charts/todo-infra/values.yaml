@@ -17,6 +17,9 @@ cockroachdb:
   statefulset:
     replicas: 3
 
+  initdb:
+    enabled: true
+
   storage:
     persistentVolume:
       size: 10Gi
