@@ -17,6 +17,9 @@ cockroachdb:
   conf:
     single-node: true
 
+  statefulset:
+    replicas: 1
+
   storage:
     persistentVolume:
       size: 10Gi
