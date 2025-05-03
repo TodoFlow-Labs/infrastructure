@@ -4,7 +4,7 @@ metadata:
   name: todo-infra
   namespace: argocd
 spec:
-  project: default
+  project: todoflow-lab
   source:
     repoURL: git@github.com:todoflow-labs/infrastructure.git
     targetRevision: main            # or your default branch
