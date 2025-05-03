@@ -1,18 +1,30 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: ApplicationSet
 metadata:
-  name: todo-infra
+  name: infra-apps
   namespace: argocd
 spec:
-  project: default
-  source:
-    repoURL: https://github.com/todoflow-labs/infrastructure.git
-    targetRevision: HEAD
-    path: .
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: dev
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+  generators:
+    - git:
+        repoURL: git@github.com:todoflow-labs/infrastructure.git
+        revision: HEAD
+        directories:
+          - path: charts/*
+          - path: apps/*
+  template:
+    metadata:
+      name: >
+        infra-apps-{{path | replace "/" "-"}}
+    spec:
+      project: todoflow-lab
+      source:
+        repoURL: git@github.com:todoflow-labs/infrastructure.git
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: dev
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
