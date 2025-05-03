@@ -5,6 +5,9 @@ traefik:
     dashboard:
       enabled: true
 
+linkerd2:
+  global:
+    namespace: linkerd
 
 nats:
   jetstream:

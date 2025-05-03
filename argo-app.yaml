@@ -4,12 +4,11 @@ metadata:
   name: todo-infra
   namespace: argocd
 spec:
-  project: todoflow-lab
+  project: default
   source:
     repoURL: git@github.com:todoflow-labs/infrastructure.git
-    targetRevision: main
-    # path: charts 
-    chart: charts              # specify the path to the chart
+    targetRevision: main            # or your default branch
+    path: charts/todo-infra         # directory containing Chart.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
