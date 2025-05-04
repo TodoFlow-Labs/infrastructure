@@ -1,0 +1,73 @@
+services:
+
+  traefik:
+    image: traefik:v3.3.6
+    container_name: traefik
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"  # Only route containers with traefik.enable=true
+      - "--entryPoints.web.address=:80"
+      - "--api.dashboard=true"
+      - "--api.insecure=true" 
+      - "--log.level=INFO"
+    ports:
+      - "80:80"      # HTTP
+      - "8080:8080"  # Traefik dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+
+  nats:
+    image: nats:latest
+    container_name: nats
+    command: ["-js","--port","4222","-sd","/data", "-m", "8222"]
+    ports:
+      - "4222:4222"  # NATS server
+      - "8222:8222"  # NATS monitoring
+    volumes:
+      - nats-data:/data
+
+      
+  cockroachdb:
+    image: cockroachdb/cockroach:latest
+    container_name: cockroachdb
+    command:
+      - start-single-node
+      - --insecure
+      - --http-addr=0.0.0.0:8080
+    ports:
+      - "26257:26257"
+      - "8081:8080"
+    volumes:
+      - cockroach-data:/cockroach/cockroach-data
+
+  crdb-init:
+    image: cockroachdb/cockroach:latest
+    depends_on:
+      - cockroachdb                  # ensures the container starts after CockroachDB
+    entrypoint: ["cockroach"]       # so `command:` args are passed directly to the CLI
+    command:
+      - sql
+      - --insecure
+      - --host=cockroachdb:26257
+      - >
+        --execute=CREATE DATABASE IF NOT EXISTS todos;
+        CREATE TABLE IF NOT EXISTS todos.todo (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          title STRING NOT NULL,
+          completed BOOL DEFAULT false,
+          created_at TIMESTAMP DEFAULT now()
+        );
+        CREATE DATABASE IF NOT EXISTS testdb;
+        USE testdb;
+        CREATE TABLE IF NOT EXISTS messages (
+        id      UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+        subject STRING       NOT NULL,
+        body    STRING       NOT NULL,
+        created TIMESTAMPTZ  DEFAULT now()
+        );
+    restart: "no"  # don't restart this container
+
+volumes:
+  cockroach-data:
+  nats-data:
