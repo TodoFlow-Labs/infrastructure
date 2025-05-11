@@ -102,9 +102,8 @@ services:
     build:
       context: ../command-service
       dockerfile: Dockerfile
-    environment:
-      - NATS_URL=nats://nats:4222
-      - LOG_LEVEL=debug
+    volumes:
+      - ../command-service/internal/config/config.yaml:/app/config.yaml
     ports:
       - "7080:8080"  # Command service
       # - "7989:9090"  # Prometheus metrics
@@ -120,7 +119,7 @@ services:
       context: ../domain-processor
       dockerfile: Dockerfile
     volumes:
-      - ../domain-processor/config.yaml:/app/config.yaml
+      - ../domain-processor/internal/config/config.yaml:/app/config.yaml
     depends_on:
       - nats
       - prometheus
