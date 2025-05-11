@@ -117,19 +117,19 @@ services:
       - prometheus
       - grafana
 
-  # projection-worker:
-  #   image: furlingene/projection-worker:latest
-  #   container_name: projection-worker
-  #   build:
-  #     context: ../projection-worker
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ../projection-worker/internal/config/config.yaml:/app/config.yaml
-  #     - bleve-index:/app/data
-  #   depends_on:
-  #     - nats
-  #     - prometheus
-  #     - grafana
+  projection-worker:
+    image: furlingene/projection-worker:latest
+    container_name: projection-worker
+    build:
+      context: ../projection-worker
+      dockerfile: Dockerfile
+    volumes:
+      - ../projection-worker/internal/config/config.yaml:/app/config.yaml
+    depends_on:
+      - nats
+      - prometheus
+      - grafana
+      - postgres
 
 
   # query-service:
