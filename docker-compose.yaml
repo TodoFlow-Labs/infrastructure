@@ -27,45 +27,36 @@ services:
       - nats-data:/data
 
       
-  cockroachdb:
-    image: cockroachdb/cockroach:latest
-    container_name: cockroachdb
-    command:
-      - start-single-node
-      - --insecure
-      - --http-addr=0.0.0.0:8080
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "26257:26257"
-      - "8081:8080"
+      - "5432:5432"
     volumes:
-      - cockroach-data:/cockroach/cockroach-data
+      - postgres-data:/var/lib/postgresql/data
 
-  crdb-init:
-    image: cockroachdb/cockroach:latest
+  pg-init:
+    image: postgres:16
     depends_on:
-      - cockroachdb                  # ensures the container starts after CockroachDB
-    entrypoint: ["cockroach"]       # so `command:` args are passed directly to the CLI
-    command:
-      - sql
-      - --insecure
-      - --host=cockroachdb:26257
-      - >
-        --execute=CREATE DATABASE IF NOT EXISTS todos;
-        CREATE TABLE IF NOT EXISTS todos.todo (
-          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-          title STRING NOT NULL,
-          completed BOOL DEFAULT false,
-          created_at TIMESTAMP DEFAULT now()
-        );
-        CREATE DATABASE IF NOT EXISTS testdb;
-        USE testdb;
-        CREATE TABLE IF NOT EXISTS messages (
-        id      UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
-        subject STRING       NOT NULL,
-        body    STRING       NOT NULL,
-        created TIMESTAMPTZ  DEFAULT now()
-        );
-    restart: "no"  # don't restart this container
+      - postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./init.sql:/init.sql:ro
+      - ./wait-for-postgres.sh:/wait-for-postgres.sh:ro
+    entrypoint: [ "sh", "/wait-for-postgres.sh" ]
+    restart: "no"
+
+
 
 
   prometheus:
@@ -122,11 +113,44 @@ services:
       - ../domain-processor/internal/config/config.yaml:/app/config.yaml
     depends_on:
       - nats
+      - postgres
       - prometheus
       - grafana
 
+  # projection-worker:
+  #   image: furlingene/projection-worker:latest
+  #   container_name: projection-worker
+  #   build:
+  #     context: ../projection-worker
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ../projection-worker/internal/config/config.yaml:/app/config.yaml
+  #     - bleve-index:/app/data
+  #   depends_on:
+  #     - nats
+  #     - prometheus
+  #     - grafana
+
+
+  # query-service:
+  #   image: furlingene/query-service:latest
+  #   container_name: query-service
+  #   build:
+  #     context: ../query-service
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ../query-service/internal/config/config.yaml:/app/config.yaml
+  #     - bleve-index:/app/data
+  #   ports:
+  #     - "7081:8080"  # Query service
+  #   depends_on:
+  #     - nats
+  #     - postgres
+  #     - prometheus
+  #     - grafana
+
 volumes:
-  cockroach-data:
+  postgres-data:
   nats-data:
   prometheus-data:
   grafana-data:
