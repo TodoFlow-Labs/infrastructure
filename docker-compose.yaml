@@ -51,8 +51,8 @@ services:
       POSTGRES_PORT: 5432
       PGPASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - ./init.sql:/init.sql:ro
-      - ./wait-for-postgres.sh:/wait-for-postgres.sh:ro
+      - ./postgres/init.sql:/init.sql:ro
+      - ./postgres/wait-for-postgres.sh:/wait-for-postgres.sh:ro
     entrypoint: [ "sh", "/wait-for-postgres.sh" ]
     restart: "no"
 
