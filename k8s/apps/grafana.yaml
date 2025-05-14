@@ -5,16 +5,19 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: https://github.com/TodoFlow-Labs/infrastructure.git
-    targetRevision: HEAD
-    path: .
-    helm:
-      chart: grafana 
-      repoURL: https://grafana.github.io/helm-charts
-      version: 8.0.1
-      valueFiles:
-        - k8s/helm/grafana/values.yaml
+  sources:
+    # 1. Remote Helm chart
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: grafana
+      targetRevision: 8.0.1
+      helm:
+        valueFiles:
+          - $values/k8s/helm/grafana/values.yaml
+
+    # 2. Git repo containing your custom values.yaml
+    - repoURL: https://github.com/TodoFlow-Labs/infrastructure.git
+      targetRevision: HEAD
+      ref: values
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
