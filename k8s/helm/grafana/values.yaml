@@ -1,0 +1,55 @@
+ingress:
+  enabled: true
+  # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+  # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+  ingressClassName: traefik
+  # Values can be templated
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+  labels: {}
+  path: /
+
+  # pathType is only for k8s >= 1.1=
+  pathType: Prefix
+
+  hosts:
+    - grafana.local
+initChownData:
+    ## If false, data ownership will not be reset at startup
+    ## This allows the grafana-server to be run with an arbitrary user
+    ##
+    enabled: false
+    
+persistence:
+    type: pvc
+    enabled: true
+    storageClassName: microk8s-hostpath
+    ## (Optional) Use this to bind the claim to an existing PersistentVolume (PV) by name.
+    # volumeName: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 1Gi
+
+adminUser: admin
+adminPassword: admin
+
+datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-server.monitoring.svc.cluster.local
+        access: proxy
+        isDefault: true
+dashboards: 
+  default:
+    node-exporter-full:
+      gnetId: 1860
+      revision: 27
+      datasource: Prometheus
+    prometheus-stats:
+      gnetId: 2
+      revision: 2
+      datasource: Prometheus
+
