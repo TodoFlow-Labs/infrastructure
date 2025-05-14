@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/TodoFlow-Labs/infrastructure.git
     targetRevision: HEAD
-    path: helm/grafana
+    path: k8s/helm/grafana
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
