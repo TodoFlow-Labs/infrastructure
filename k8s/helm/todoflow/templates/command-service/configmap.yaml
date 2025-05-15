@@ -4,4 +4,7 @@ metadata:
   name: command-service-config
 data:
   config.yaml: |
-    {{ .Values.commandService.configFile | indent 4 }}
+    nats-url: {{ .Values.commandService.env.NATS_URL }}
+    http-addr: {{ .Values.commandService.env.HTTP_ADDR }}
+    log-level: {{ .Values.commandService.env.LOG_LEVEL }}
+    metrics-addr: {{ .Values.commandService.env.METRICS_ADDR }}

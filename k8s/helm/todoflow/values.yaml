@@ -5,6 +5,7 @@ commandService:
 
   service:
     port: 8080
+
   env:
     ENV: production
     LOG_LEVEL: debug
@@ -12,11 +13,6 @@ commandService:
     METRICS_ADDR: ":9090"
     NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
 
-  configFile: |
-    nats-url: {{ .Values.commandService.env.NATS_URL }}
-    http-addr: {{ .Values.commandService.env.HTTP_ADDR }}
-    log-level: {{ .Values.commandService.env.LOG_LEVEL }}
-    metrics-addr: {{ .Values.commandService.env.METRICS_ADDR }}
 
 
 domainProcessor:
