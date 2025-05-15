@@ -19,7 +19,8 @@ initChownData:
     ## This allows the grafana-server to be run with an arbitrary user
     ##
     enabled: false
-    
+
+useStatefulSet: true   
 persistence:
     type: pvc
     enabled: true
@@ -49,11 +50,6 @@ datasources:
         access: proxy
         isDefault: true
 
-sidecar:
-  dashboards:
-    enabled: true
-    searchNamespace: ALL
-    folder: /var/lib/grafana/dashboards/default
 
 dashboardProviders:
   dashboardproviders.yaml:
