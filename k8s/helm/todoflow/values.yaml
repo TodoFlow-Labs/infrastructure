@@ -3,6 +3,8 @@ commandService:
     repository: furlingene/command-service
     tag: latest
 
+  service:
+    port: 8080
   env:
     ENV: production
     LOG_LEVEL: debug
