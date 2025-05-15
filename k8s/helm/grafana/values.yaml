@@ -33,6 +33,12 @@ persistence:
 adminUser: admin
 adminPassword: admin
 
+admin:
+  existingSecret: grafana-admin
+  userKey: admin-user
+  passwordKey: admin-password
+
+
 datasources:
     datasources.yaml:
       apiVersion: 1
@@ -45,11 +51,32 @@ datasources:
 dashboards: 
   default:
     node-exporter-full:
-      gnetId: 1860
+      gnetId: 10242
       revision: 27
       datasource: Prometheus
     prometheus-stats:
       gnetId: 2
       revision: 2
+    postgres:
+      gnetId: 9628     # PostgreSQL Database Dashboard
+      revision: 1
       datasource: Prometheus
 
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: 'default'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+
+sidecar:
+  dashboards:
+    enabled: true
+    searchNamespace: ALL
+    folder: /var/lib/grafana/dashboards/default
