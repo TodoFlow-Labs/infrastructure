@@ -1,4 +1,6 @@
 commandService:
+  host: todoflow.local
+  name: command-service
   image:
     repository: furlingene/command-service
     tag: latest
