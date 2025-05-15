@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: command-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: command-service
+  template:
+    metadata:
+      labels:
+        app: command-service
+    spec:
+      containers:
+        - name: command-service
+          image: "{{ .Values.commandService.image.repository }}:{{ .Values.commandService.image.tag }}"
+          env:
+            - name: ENV
+              value: "{{ .Values.commandService.env.ENV }}"
+            - name: LOG_LEVEL
+              value: "{{ .Values.commandService.env.LOG_LEVEL }}"
+            - name: HTTP_ADDR
+              value: "{{ .Values.commandService.env.HTTP_ADDR }}"
+            - name: METRICS_ADDR
+              value: "{{ .Values.commandService.env.METRICS_ADDR }}"
+            - name: NATS_URL
+              value: "{{ .Values.commandService.env.NATS_URL }}"
+          volumeMounts:
+            - name: config
+              mountPath: /app/config.yaml
+              subPath: config.yaml
+      volumes:
+        - name: config
+          configMap:
+            name: command-service-config

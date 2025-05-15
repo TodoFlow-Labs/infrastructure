@@ -1,0 +1,29 @@
+commandService:
+  image:
+    repository: furlingene/command-service
+    tag: latest
+
+  env:
+    ENV: production
+    LOG_LEVEL: debug
+    HTTP_ADDR: ":8080"
+    METRICS_ADDR: ":9090"
+    NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
+
+  configFile: |
+    nats-url: {{ .Values.commandService.env.NATS_URL }}
+    http-addr: {{ .Values.commandService.env.HTTP_ADDR }}
+    log-level: {{ .Values.commandService.env.LOG_LEVEL }}
+    metrics-addr: {{ .Values.commandService.env.METRICS_ADDR }}
+
+
+domainProcessor:
+  image:
+    repository: furlingene/domain-processor
+    tag: latest
+  env:
+    ENV: production
+    NATS_URL: 
+    DB_URL: 
+
+# You can also add global values if needed
