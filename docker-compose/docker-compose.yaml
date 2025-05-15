@@ -152,10 +152,10 @@ services:
     image: furlingene/sse-updates:latest
     container_name: sse-updates
     build:
-      context: ../sse-updates
+      context: ../../sse-updates
       dockerfile: Dockerfile
     volumes:
-      - ../sse-updates/internal/config/config.yaml:/app/config.yaml
+      - ../../sse-updates/internal/config/config.yaml:/app/config.yaml
     ports:
       - "7082:8080"  # SSE updates service
     depends_on:

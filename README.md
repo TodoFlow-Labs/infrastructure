@@ -1,5 +1,7 @@
 # infrastructure
 
+![Diag](./diag.png)
+
 ## Install MicroK8s on your server
 ```bash
 sudo snap install microk8s --classic --channel=1.32
@@ -49,7 +51,7 @@ helm upgrade -i argocd argo/argo-cd \
   --create-namespace \
   -f k8s/helm/argocd/values.yaml
 
-kubectl apply -f k8s/infra-root.yaml
+kubectl apply -f k8s/apps/infra-root.yaml
 
 ```
 
@@ -57,6 +59,11 @@ kubectl apply -f k8s/infra-root.yaml
 ```argocd.local``` must be added to you DNS/hosts points to ip address of k8s server's loadbalancer
 ```bash
 http://argocd.local
+```
+### Reach Grafana UI 
+```grafana.local``` must be added to you DNS/hosts points to ip address of k8s server's loadbalancer
+```bash
+http://grafana.local
 ```
 
 
@@ -72,10 +79,12 @@ kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/downloa
 ```
 
 ### Sealed Secret for Postgres
+```bash
 kubectl create secret generic postgres-secret \
   --from-literal=username=<name> \
   --from-literal=password=<pass>  \
   --from-literal=postgres-password=<pass> \
   --from-literal=database=<database-name> \
   --namespace=db \
-  --dry-run=client -o yaml | kubeseal --format yaml > k8s/secrets/postgres-sealedsecret.yaml
+  --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/postgres/postgres-sealedsecret.yaml
+```
