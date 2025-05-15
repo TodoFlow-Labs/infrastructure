@@ -13,8 +13,6 @@ commandService:
     METRICS_ADDR: ":9090"
     NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
 
-
-
 domainProcessor:
   image:
     repository: furlingene/domain-processor
