@@ -1,7 +1,7 @@
 nameOverride: postgres
 fullnameOverride: postgres
 auth:
-  existingSecret: postgresql
+  existingSecret: postgres-secret
   secretKeys:
     adminPasswordKey: postgres-password
   enablePostgresUser: true
