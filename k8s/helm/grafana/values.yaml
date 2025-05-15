@@ -51,29 +51,17 @@ datasources:
         isDefault: true
 
 
-dashboardProviders:
-  dashboardproviders.yaml:
-    apiVersion: 1
-    providers:
-      - name: 'default'
-        orgId: 1
-        folder: ''
-        type: file
-        disableDeletion: false
-        editable: true
-        options:
-          path: /var/lib/grafana/dashboards/default
 
 dashboards:
   default:
-    node-exporter-full:
-      gnetId: 10242
-      revision: 27
-      datasource: Prometheus
-    prometheus-stats:
-      gnetId: 2
-      revision: 2
-      datasource: Prometheus
+    # node-exporter-full:
+    #   gnetId: 10242
+    #   revision: 27
+    #   datasource: Prometheus
+    # prometheus-stats:
+    #   gnetId: 2
+    #   revision: 2
+    #   datasource: Prometheus
     postgres:
       gnetId: 9628
       revision: 1
