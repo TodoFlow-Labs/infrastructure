@@ -10,14 +10,7 @@ auth:
 metrics:
   enabled: true
   serviceMonitor:
-    enabled: true
-    namespace: monitoring 
-    interval: 30s
-    scrapeTimeout: 10s
-    labels:
-      release: prometheus
-  customMetrics:
-    enabled: true
+    enabled: false
   
 primary:
   persistence:
