@@ -1,6 +1,7 @@
 nameOverride: postgres
 fullnameOverride: postgres
 auth:
+  database: todos
   existingSecret: postgres-secret
   secretKeys:
     adminPasswordKey: postgres-password
@@ -15,10 +16,8 @@ primary:
   initdb:
     scripts:
       init.sql: |
-        CREATE DATABASE todos;
         CREATE EXTENSION IF NOT EXISTS pg_trgm;
         CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
         CREATE TABLE IF NOT EXISTS todo (
           id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
           user_id TEXT NOT NULL,
