@@ -48,19 +48,12 @@ datasources:
         url: http://prometheus-server.monitoring.svc.cluster.local
         access: proxy
         isDefault: true
-dashboards: 
-  default:
-    node-exporter-full:
-      gnetId: 10242
-      revision: 27
-      datasource: Prometheus
-    prometheus-stats:
-      gnetId: 2
-      revision: 2
-    postgres:
-      gnetId: 9628     # PostgreSQL Database Dashboard
-      revision: 1
-      datasource: Prometheus
+
+sidecar:
+  dashboards:
+    enabled: true
+    searchNamespace: ALL
+    folder: /var/lib/grafana/dashboards/default
 
 dashboardProviders:
   dashboardproviders.yaml:
@@ -75,8 +68,17 @@ dashboardProviders:
         options:
           path: /var/lib/grafana/dashboards/default
 
-sidecar:
-  dashboards:
-    enabled: true
-    searchNamespace: ALL
-    folder: /var/lib/grafana/dashboards/default
+dashboards:
+  default:
+    node-exporter-full:
+      gnetId: 10242
+      revision: 27
+      datasource: Prometheus
+    prometheus-stats:
+      gnetId: 2
+      revision: 2
+      datasource: Prometheus
+    postgres:
+      gnetId: 9628
+      revision: 1
+      datasource: Prometheus
