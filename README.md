@@ -49,7 +49,7 @@ helm upgrade -i argocd argo/argo-cd \
   --create-namespace \
   -f k8s/helm/argocd/values.yaml
 
-kubectl apply -f k8s/apps/root.yaml
+kubectl apply -f k8s/infra-root.yaml
 
 ```
 
@@ -60,3 +60,22 @@ http://argocd.local
 ```
 
 
+## Create secrets
+### Install kubeseal
+```bash
+brew install kubeseal
+```
+
+### Install Sealed Secrets controller
+```bash
+kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.29.0/controller.yaml
+```
+
+### Sealed Secret for Postgres
+kubectl create secret generic postgres-secret \
+  --from-literal=username=<name> \
+  --from-literal=password=<pass>  \
+  --from-literal=postgres-password=<pass> \
+  --from-literal=database=<database-name> \
+  --namespace=db \
+  --dry-run=client -o yaml | kubeseal --format yaml > k8s/secrets/postgres-sealedsecret.yaml

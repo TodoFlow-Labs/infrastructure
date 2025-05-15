@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-db
+  namespace: db
+spec:
+  template:
+    spec:
+      containers:
+        - name: init-db
+          image: bitnami/postgresql:17
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql
+                  key: postgres-password
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql
+                  key: username
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql
+                  key: database
+            - name: PGHOST
+              value: postgresql.db.svc.cluster.local
+          volumeMounts:
+            - name: init-sql
+              mountPath: /sql
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              until pg_isready -U "$PGUSER" -d "$PGDATABASE"; do sleep 2; done
+              psql -U "$PGUSER" -d "$PGDATABASE" -f /sql/init.sql
+      restartPolicy: OnFailure
+      volumes:
+        - name: init-sql
+          configMap:
+            name: init-db-sql
