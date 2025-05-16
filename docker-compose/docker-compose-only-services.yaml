@@ -7,7 +7,7 @@ services:
   #     - "--providers.docker.exposedByDefault=false"  # Only route containers with traefik.enable=true
   #     - "--entryPoints.web.address=:80"
   #     - "--api.dashboard=true"
-  #     - "--api.insecure=true" 
+  #     - "--api.insecure=true"
   #     - "--log.level=INFO"
   #   ports:
   #     - "80:80"      # HTTP
@@ -15,20 +15,18 @@ services:
   #   volumes:
   #     - /var/run/docker.sock:/var/run/docker.sock:ro
 
-
   nats:
     image: nats:latest
     container_name: nats
-    command: ["-js","--port","4222","-sd","/data", "-m", "8222"]
+    command: ["-js", "--port", "4222", "-sd", "/data", "-m", "8222"]
     ports:
-      - "4222:4222"  # NATS server
-      - "8222:8222"  # NATS monitoring
+      - "4222:4222" # NATS server
+      - "8222:8222" # NATS monitoring
     volumes:
       - nats-data:/data
 
-      
   postgres:
-    image: postgres:16
+    image: postgres:17
     container_name: postgres
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
@@ -39,6 +37,23 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  pg-init:
+    image: postgres:17
+    depends_on:
+      - postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./postgres/init.sql:/init.sql:ro
+      - ./postgres/wait-for-postgres.sh:/wait-for-postgres.sh:ro
+    entrypoint: ["sh", "/wait-for-postgres.sh"]
+    restart: "no"
+
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
@@ -47,17 +62,16 @@ services:
       - "--web.listen-address=:9090"
       - "--web.enable-lifecycle"
     ports:
-      - "8090:9090"  # Prometheus server
+      - "8090:9090" # Prometheus server
     volumes:
       - prometheus-data:/prometheus
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-
 
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
-      - "8091:3000"  # Grafana server
+      - "8091:3000" # Grafana server
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-clock-panel,grafana-simple-json-datasource
@@ -65,8 +79,6 @@ services:
       - grafana-data:/var/lib/grafana
     depends_on:
       - prometheus
-
-
 
 volumes:
   postgres-data:
