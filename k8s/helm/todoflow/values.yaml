@@ -7,6 +7,7 @@ commandService:
 
   service:
     port: 8080
+    metricsPort: 9090
 
   env:
     ENV: production
@@ -27,7 +28,7 @@ domainProcessor:
     METRICS_ADDR: ":9090"
 
   service:
-    port: 8080
+    metricsPort: 9090
 
 projectionWorker:
   name: projection-worker
@@ -36,7 +37,7 @@ projectionWorker:
     tag: latest
 
   service:
-    port: 8080
+    metricsPort: 9090
 
   env:
     ENV: production
@@ -44,3 +45,20 @@ projectionWorker:
     DATABASE_URL: "postgres://postgres:pass@postgres.db.svc.cluster.local:5432/todos?sslmode=disable"
     METRICS_ADDR: ":9090"
     NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
+
+queryService:
+  name: query-service
+  image:
+    repository: furlingene/query-service
+    tag: latest
+
+  service:
+    port: 8080
+    metricsPort: 9090
+
+  env:
+    ENV: production
+    LOG_LEVEL: debug
+    DATABASE_URL: "postgres://postgres:pass@postgres.db.svc.cluster.local:5432/todos?sslmode=disable"
+    METRICS_ADDR: ":9090"
+    HTTP_ADDR: ":8080"

@@ -6,6 +6,6 @@ spec:
   selector:
     app: {{ .Values.domainProcessor.name }}
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: {{ .Values.domainProcessor.service.port }}
+    - name: metrics
+      port: 9090
+      targetPort: {{ .Values.domainProcessor.service.metricsPort }}

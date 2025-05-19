@@ -9,3 +9,6 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: {{ .Values.commandService.service.port }}
+    - name: metrics
+      port: 9090
+      targetPort: {{ .Values.commandService.service.metricsPort }}

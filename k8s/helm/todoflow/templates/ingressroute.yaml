@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: {{ .Values.commandService.host}}
+    - host: {{ .Values.commandService.host }}
       http:
         paths:
           - path: /todos
@@ -17,5 +17,12 @@ spec:
             backend:
               service:
                 name: {{ .Values.commandService.name }}
+                port:
+                  number: 80
+          - path: /get_todos
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.queryService.name }}
                 port:
                   number: 80
