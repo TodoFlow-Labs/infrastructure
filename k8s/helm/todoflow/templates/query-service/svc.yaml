@@ -8,7 +8,8 @@ spec:
   selector:
     app: {{ .Values.queryService.name }}
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 80
       targetPort: {{ .Values.queryService.service.port }}
     - name: metrics
