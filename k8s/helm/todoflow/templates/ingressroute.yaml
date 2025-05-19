@@ -12,7 +12,6 @@ spec:
       services:
         - name: {{ .Values.queryService.name }}
           port: 80
-
     - match: (Method(`POST`) || Method(`PUT`) || Method(`DELETE`)) && PathPrefix(`/todos`)
       kind: Rule
       services:
