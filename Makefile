@@ -1,4 +1,4 @@
-.PHONY: commit push
+.PHONY: commit push expose-postgres expose-nats
 
 commit:
 	@echo "Committing changes..."
@@ -17,5 +17,13 @@ commit:
 push:
 	@echo "Pushing changes to remote repository..."
 	git push origin main
-
 	@echo "✅ All tasks completed successfully."
+
+
+expose-postgres:
+	@echo "Forward ports for postgres"
+	kubectl port-forward svc/postgres 5432:5432 -n db &
+
+expose-nats:
+	@echo "Forward ports for NATS"
+	kubectl port-forward svc/nats 4222:4222 -n messaging &

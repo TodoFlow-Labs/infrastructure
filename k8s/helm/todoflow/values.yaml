@@ -1,3 +1,23 @@
+global:
+  env: production
+  logLevel: debug
+  natsUrl: "nats://nats.messaging.svc.cluster.local:4222"
+  metricsPort: 9090
+  databaseUrl: "postgres://postgres:pass@postgres.db.svc.cluster.local:5432/todos?sslmode=disable"
+
+commonEnv: &commonEnv
+  ENV: {{ .Values.global.env }}
+  LOG_LEVEL: {{ .Values.global.logLevel }}
+
+metricsEnv: &metricsEnv
+  METRICS_ADDR: ":{{ .Values.global.metricsPort }}"
+
+databaseEnv: &databaseEnv
+  DATABASE_URL: "{{ .Values.global.databaseUrl }}"
+
+natsEnv: &natsEnv
+  NATS_URL: "{{ .Values.global.natsUrl }}"
+
 commandService:
   host: todoflow.local
   name: command-service
@@ -7,28 +27,23 @@ commandService:
 
   service:
     port: 8080
-    metricsPort: 9090
+    metricsPort: {{ .Values.global.metricsPort }}
 
   env:
-    ENV: production
-    LOG_LEVEL: debug
+    <<: [*commonEnv, *natsEnv, *metricsEnv]
     HTTP_ADDR: ":8080"
-    METRICS_ADDR: ":9090"
-    NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
 
 domainProcessor:
   name: domain-processor
   image:
     repository: furlingene/domain-processor
     tag: latest
-  env:
-    ENV: production
-    NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
-    LOG_LEVEL: debug
-    METRICS_ADDR: ":9090"
 
   service:
-    metricsPort: 9090
+    metricsPort: {{ .Values.global.metricsPort }}
+
+  env:
+    <<: [*commonEnv, *natsEnv, *metricsEnv]
 
 projectionWorker:
   name: projection-worker
@@ -37,14 +52,10 @@ projectionWorker:
     tag: latest
 
   service:
-    metricsPort: 9090
+    metricsPort: {{ .Values.global.metricsPort }}
 
   env:
-    ENV: production
-    LOG_LEVEL: debug
-    DATABASE_URL: "postgres://postgres:pass@postgres.db.svc.cluster.local:5432/todos?sslmode=disable"
-    METRICS_ADDR: ":9090"
-    NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
+    <<: [*commonEnv, *natsEnv, *metricsEnv, *databaseEnv]
 
 queryService:
   name: query-service
@@ -54,11 +65,8 @@ queryService:
 
   service:
     port: 8080
-    metricsPort: 9090
+    metricsPort: {{ .Values.global.metricsPort }}
 
   env:
-    ENV: production
-    LOG_LEVEL: debug
-    DATABASE_URL: "postgres://postgres:pass@postgres.db.svc.cluster.local:5432/todos?sslmode=disable"
-    METRICS_ADDR: ":9090"
+    <<: [*commonEnv, *metricsEnv, *databaseEnv]
     HTTP_ADDR: ":8080"
