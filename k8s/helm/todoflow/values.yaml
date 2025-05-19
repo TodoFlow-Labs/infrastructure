@@ -62,3 +62,20 @@ queryService:
     DATABASE_URL: "postgres://postgres:pass@postgres.db.svc.cluster.local:5432/todos?sslmode=disable"
     METRICS_ADDR: ":9090"
     HTTP_ADDR: ":8080"
+
+sseUpdates:
+  name: sse-updates
+  image:
+    repository: furlingene/sse-updates
+    tag: latest
+
+  service:
+    port: 8080
+    metricsPort: 9090
+
+  env:
+    ENV: production
+    LOG_LEVEL: debug
+    METRICS_ADDR: ":9090"
+    HTTP_ADDR: ":8080"
+    NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"

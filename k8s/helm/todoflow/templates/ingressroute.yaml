@@ -17,6 +17,11 @@ spec:
       services:
         - name: {{ .Values.commandService.name }}
           port: 80
+    - match: PathPrefix(`/events`)
+      kind: Rule
+      services:
+        - name: {{ .Values.sseUpdates.name }}
+          port: 80
 # apiVersion: networking.k8s.io/v1
 # kind: Ingress
 # metadata:

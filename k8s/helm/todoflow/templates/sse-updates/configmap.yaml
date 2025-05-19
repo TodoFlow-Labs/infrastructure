@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Values.sseUpdates.name }}-config"
+data:
+  config.yaml: |
+    http-addr: {{ .Values.sseUpdates.env.HTTP_ADDR }}
+    log-level: {{ .Values.sseUpdates.env.LOG_LEVEL }}
+    metrics-addr: {{ .Values.sseUpdates.env.METRICS_ADDR }}
+    nats-url: {{ .Values.sseUpdates.env.NATS_URL }}
