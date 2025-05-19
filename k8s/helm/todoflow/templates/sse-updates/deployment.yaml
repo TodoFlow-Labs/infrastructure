@@ -6,14 +6,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: { { .Values.sseUpdates.name } }
+      app: {{ .Values.sseUpdates.name }}
   template:
     metadata:
       labels:
-        app: { { .Values.sseUpdates.name } }
+        app: {{ .Values.sseUpdates.name }}
     spec:
       containers:
-        - name: { { .Values.sseUpdates.name } }
+        - name: {{ .Values.sseUpdates.name }}
           image: "{{ .Values.sseUpdates.image.repository }}:{{ .Values.sseUpdates.image.tag }}"
           env:
             - name: ENV
