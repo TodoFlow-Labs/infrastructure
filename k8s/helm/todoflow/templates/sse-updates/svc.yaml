@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: { { .Values.sseUpdates.name } }
+  name: {{ .Values.sseUpdates.name }}
   labels:
-    app: { { .Values.sseUpdates.name } }
+    app: {{ .Values.sseUpdates.name }}
 spec:
   selector:
-    app: { { .Values.sseUpdates.name } }
+    app: {{ .Values.sseUpdates.name }}
   ports:
     - name: http
       protocol: TCP
       port: 80
-      targetPort: { { .Values.sseUpdates.service.port } }
+      targetPort: {{ .Values.sseUpdates.service.port }}
     - name: metrics
       port: 9090
-      targetPort: { { .Values.sseUpdates.service.metricsPort } }
+      targetPort: {{ .Values.sseUpdates.service.metricsPort }}
