@@ -7,4 +7,4 @@ data:
     nats-url: {{ .Values.projectionWorker.env.NATS_URL }}
     log-level: {{ .Values.projectionWorker.env.LOG_LEVEL }}
     metrics-addr: {{ .Values.projectionWorker.env.METRICS_ADDR }}
-    database-url: {{.Values.projectionWorker.env.}}
+    database-url: {{.Values.projectionWorker.env.DATABASE_URL}}

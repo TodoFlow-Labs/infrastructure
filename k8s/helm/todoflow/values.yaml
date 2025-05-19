@@ -41,6 +41,6 @@ projectionWorker:
   env:
     ENV: production
     LOG_LEVEL: debug
-    DatabaseURL: "postgres://postgres:pass@postgres.db.svc.cluster.local:5432/todos?sslmode=disable"
+    DATABASE_URL: "postgres://postgres:pass@postgres.db.svc.cluster.local:5432/todos?sslmode=disable"
     METRICS_ADDR: ":9090"
     NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
