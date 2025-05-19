@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Values.domainProcessor.name }}-config"
+data:
+  config.yaml: |
+    nats-url: {{ .Values.domainProcessor.env.NATS_URL }}
+    log-level: {{ .Values.domainProcessor.env.LOG_LEVEL }}
+    metrics-addr: {{ .Values.domainProcessor.env.METRICS_ADDR }}

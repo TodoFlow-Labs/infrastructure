@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: command-service
+  name: {{ .Values.commandService.name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: command-service
+      app: {{ .Values.commandService.name }}
   template:
     metadata:
       labels:
-        app: command-service
+        app: {{ .Values.commandService.name }}
     spec:
       containers:
-        - name: command-service
+        - name: {{ .Values.commandService.name }}
           image: "{{ .Values.commandService.image.repository }}:{{ .Values.commandService.image.tag }}"
           env:
             - name: ENV
@@ -33,4 +33,4 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: command-service-config
+            name: "{{ .Values.commandService.name }}-config"

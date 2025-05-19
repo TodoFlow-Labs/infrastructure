@@ -16,12 +16,16 @@ commandService:
     NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
 
 domainProcessor:
+  name: domain-processor
   image:
     repository: furlingene/domain-processor
     tag: latest
   env:
     ENV: production
-    NATS_URL: 
-    DB_URL: 
+    NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
+    LOG_LEVEL: debug
+    METRICS_ADDR: ":9090"
 
+  service:
+    port: 8080
 # You can also add global values if needed

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: command-service-config
+  name: "{{ .Values.commandService.name }}-config"
 data:
   config.yaml: |
     nats-url: {{ .Values.commandService.env.NATS_URL }}
