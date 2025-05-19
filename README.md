@@ -55,12 +55,19 @@ kubectl apply -f k8s/apps/infra-root.yaml
 
 ```
 
-### Reach ArgoCD UI 
+
+### Install Sealed Secrets controller
+```bash
+kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.29.0/controller.yaml
+```
+
+
+### Reach ArgoCD UI
 ```argocd.local``` must be added to you DNS/hosts points to ip address of k8s server's loadbalancer
 ```bash
 http://argocd.local
 ```
-### Reach Grafana UI 
+### Reach Grafana UI
 ```grafana.local``` must be added to you DNS/hosts points to ip address of k8s server's loadbalancer
 ```bash
 http://grafana.local
@@ -73,18 +80,22 @@ http://grafana.local
 brew install kubeseal
 ```
 
-### Install Sealed Secrets controller
-```bash
-kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.29.0/controller.yaml
-```
-
-### Sealed Secret for Postgres
+### Create Sealed Secret for Postgres
 ```bash
 kubectl create secret generic postgres-secret \
-  --from-literal=username=<name> \
+  --from-literal=username=postgres \
   --from-literal=password=<pass>  \
-  --from-literal=postgres-password=<pass> \
-  --from-literal=database=<database-name> \
+  --from-literal=postgres-password=<pass>  \
+  --from-literal=database=todos \
   --namespace=db \
-  --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/postgres/postgres-sealedsecret.yaml
+  --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/postgres-sealedsecret.yaml
+```
+
+### Create Sealed Secret for Grafana
+```bash
+kubectl create secret generic grafana-secret \
+  --from-literal=admin-user=admin \
+  --from-literal=admin-password=<pass>  \
+  --namespace=monitoring \
+  --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/grafana-sealedsecret.yaml
 ```

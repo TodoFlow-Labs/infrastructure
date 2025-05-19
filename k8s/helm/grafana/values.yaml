@@ -15,42 +15,39 @@ ingress:
   hosts:
     - grafana.local
 initChownData:
-    ## If false, data ownership will not be reset at startup
-    ## This allows the grafana-server to be run with an arbitrary user
-    ##
-    enabled: false
+  ## If false, data ownership will not be reset at startup
+  ## This allows the grafana-server to be run with an arbitrary user
+  ##
+  enabled: false
 
-useStatefulSet: true   
+useStatefulSet: true
 persistence:
-    type: pvc
-    enabled: true
-    storageClassName: microk8s-hostpath
-    ## (Optional) Use this to bind the claim to an existing PersistentVolume (PV) by name.
-    # volumeName: ""
-    accessModes:
-      - ReadWriteOnce
-    size: 1Gi
+  type: pvc
+  enabled: true
+  storageClassName: microk8s-hostpath
+  ## (Optional) Use this to bind the claim to an existing PersistentVolume (PV) by name.
+  # volumeName: ""
+  accessModes:
+    - ReadWriteOnce
+  size: 1Gi
 
 adminUser: admin
 adminPassword: admin
 
 admin:
-  existingSecret: grafana-admin
+  existingSecret: grafana-secret
   userKey: admin-user
   passwordKey: admin-password
 
-
 datasources:
-    datasources.yaml:
-      apiVersion: 1
-      datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
       - name: Prometheus
         type: prometheus
         url: http://prometheus-server.monitoring.svc.cluster.local
         access: proxy
         isDefault: true
-
-
 
 dashboards:
   default:
@@ -66,4 +63,3 @@ dashboards:
     #   gnetId: 9628
     #   revision: 1
     #   datasource: Prometheus
-      
