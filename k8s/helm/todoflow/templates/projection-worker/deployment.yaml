@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.projectionWorker.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.projectionWorker.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.projectionWorker.name }}
+    spec:
+      containers:
+        - name: {{ .Values.projectionWorker.name }}
+          image: "{{ .Values.projectionWorker.image.repository }}:{{ .Values.projectionWorker.image.tag }}"
+          env:
+            - name: ENV
+              value: "{{ .Values.projectionWorker.env.ENV }}"
+            - name: LOG_LEVEL
+              value: "{{ .Values.projectionWorker.env.LOG_LEVEL }}"
+            - name: HTTP_ADDR
+              value: "{{ .Values.projectionWorker.env.HTTP_ADDR }}"
+            - name: METRICS_ADDR
+              value: "{{ .Values.projectionWorker.env.METRICS_ADDR }}"
+            - name: NATS_URL
+              value: "{{ .Values.projectionWorker.env.NATS_URL }}"
+          volumeMounts:
+            - name: config
+              mountPath: /app/config.yaml
+              subPath: config.yaml
+      volumes:
+        - name: config
+          configMap:
+            name: "{{ .Values.projectionWorker.name }}-config"

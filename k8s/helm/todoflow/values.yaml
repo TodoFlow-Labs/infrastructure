@@ -28,4 +28,19 @@ domainProcessor:
 
   service:
     port: 8080
-# You can also add global values if needed
+
+projectionWorker:
+  name: projection-worker
+  image:
+    repository: furlingene/projection-worker
+    tag: latest
+
+  service:
+    port: 8080
+
+  env:
+    ENV: production
+    LOG_LEVEL: debug
+    DatabaseURL: "postgres://postgres:pass@postgres.db.svc.cluster.local:5432/todos?sslmode=disable"
+    METRICS_ADDR: ":9090"
+    NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
