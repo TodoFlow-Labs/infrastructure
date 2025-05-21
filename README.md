@@ -103,7 +103,7 @@ kubectl create secret generic grafana-secret \
 ### Create Sealed Secret for Authentik
 ```bash
 kubectl create secret generic authentik-secret \
-  --from-literal=authentik-key='1f93c8a2be91b62af9f31d44c32ef39c2745c4b4e499a51c1f36f7a5a2327d90' \
+  --from-literal=authentik-key=1f93c8a2be91b62af9f31d44c32ef39c2745c4b4e499a51c1f36f7a5a2327d90 \
   --from-literal=db-password=<pass> \
   --namespace=authentik \
   --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/authentik-sealedsecret.yaml
