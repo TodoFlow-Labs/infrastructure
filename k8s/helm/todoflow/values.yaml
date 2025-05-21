@@ -1,5 +1,6 @@
-commandService:
+IngressRoute:
   host: todoflow.local
+commandService:
   name: command-service
   image:
     repository: furlingene/command-service
