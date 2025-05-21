@@ -1,16 +1,23 @@
+
+authentik:
+  postgresql:
+      host: postgres.db.svc.cluster.local
+      name: "authentik"
+      user: "authentik"
+      port: 5432
 server:
   env:
-    - name: AUTHENTIK_SECRET_KEY
-      valueFrom:
-        secretKeyRef:
-          name: authentik-secret
-          key: authentik-key
-    - name: AUTHENTIK_POSTGRESQL__HOST
-      value: postgres.db.svc.cluster.local
-    - name: AUTHENTIK_POSTGRESQL__NAME
-      value: authentik
-    - name: AUTHENTIK_POSTGRESQL__USER
-      value: authentik
+  #   - name: AUTHENTIK_SECRET_KEY
+  #     valueFrom:
+  #       secretKeyRef:
+  #         name: authentik-secret
+  #         key: authentik-key
+  #   - name: AUTHENTIK_POSTGRESQL__HOST
+  #     value: postgres.db.svc.cluster.local
+  #   - name: AUTHENTIK_POSTGRESQL__NAME
+  #     value: authentik
+  #   - name: AUTHENTIK_POSTGRESQL__USER
+  #     value: authentik
     - name: AUTHENTIK_POSTGRESQL__PASSWORD
       valueFrom:
         secretKeyRef:
