@@ -17,11 +17,11 @@ server:
           name: authentik-secret
           key: db-password
 
-ingress:
-  enabled: true
-  ingressClassName: traefik
-  hosts:
-    - host: auth.local
-      paths:
-        - path: /
-          pathType: Prefix
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    hosts:
+      - host: auth.local
+        paths:
+          - path: /
+            pathType: Prefix
