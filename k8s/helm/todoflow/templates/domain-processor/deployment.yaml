@@ -23,12 +23,7 @@ spec:
             - name: METRICS_ADDR
               value: "{{ .Values.domainProcessor.env.METRICS_ADDR }}"
             - name: NATS_URL
-              value: "{{ .Values.domainProcessor.env.NATS_URL }}"
-          volumeMounts:
-            - name: config
-              mountPath: /app/config.yaml
-              subPath: config.yaml
-      volumes:
-        - name: config
-          configMap:
-            name: "{{ .Values.domainProcessor.name }}-config"
+              valueFrom:
+                secretKeyRef:
+                  name: nats-secret
+                  key: nats-url

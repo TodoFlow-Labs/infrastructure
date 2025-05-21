@@ -18,11 +18,15 @@ spec:
           env:
             - name: ENV
               value: "{{ .Values.sseUpdates.env.ENV }}"
-          volumeMounts:
-            - name: config
-              mountPath: /app/config.yaml
-              subPath: config.yaml
-      volumes:
-        - name: config
-          configMap:
-            name: "{{ .Values.sseUpdates.name }}-config"
+            - name: LOG_LEVEL
+              value: "{{ .Values.sseUpdates.env.LOG_LEVEL }}"
+            - name: HTTP_ADDR
+              value: "{{ .Values.sseUpdates.env.HTTP_ADDR }}"
+            - name: METRICS_ADDR
+              value: "{{ .Values.sseUpdates.env.METRICS_ADDR }}"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres-url
+            -

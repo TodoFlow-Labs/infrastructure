@@ -80,13 +80,14 @@ http://grafana.local
 brew install kubeseal
 ```
 
-### Create Sealed Secret for Postgres
+### Create Sealed Secret for Postgres, use your password instead of the <pass>
 ```bash
 kubectl create secret generic postgres-secret \
   --from-literal=username=postgres \
   --from-literal=password=<pass>  \
   --from-literal=postgres-password=<pass>  \
   --from-literal=database=todos \
+  --from-literal=database-url='postgres://postgres:<pass>@postgres.db.svc.cluster.local:5432/todos?sslmode=disable' \
   --namespace=db \
   --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/postgres-sealedsecret.yaml
 ```
@@ -98,4 +99,13 @@ kubectl create secret generic grafana-secret \
   --from-literal=admin-password=<pass>  \
   --namespace=monitoring \
   --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/grafana-sealedsecret.yaml
+```
+
+
+### Create Sealed Secret for nats
+```bash
+kubectl create secret generic nats-secret \
+  --from-literal=nats-url='nats://nats.messaging.svc.cluster.local:4222' \
+  --namespace=messaging \
+  --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/nats-sealedsecret.yaml
 ```

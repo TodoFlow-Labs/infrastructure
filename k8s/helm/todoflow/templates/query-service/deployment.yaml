@@ -18,19 +18,14 @@ spec:
           env:
             - name: ENV
               value: "{{ .Values.queryService.env.ENV }}"
-            # - name: LOG_LEVEL
-            #   value: "{{ .Values.queryService.env.LOG_LEVEL }}"
-            # - name: HTTP_ADDR
-            #   value: "{{ .Values.queryService.env.HTTP_ADDR }}"
-            # - name: METRICS_ADDR
-            #   value: "{{ .Values.queryService.env.METRICS_ADDR }}"
-            # - name: DATABASE_URL
-            #   value: "{{ .Values.queryService.env.DATABASE_URL }}"
-          volumeMounts:
-            - name: config
-              mountPath: /app/config.yaml
-              subPath: config.yaml
-      volumes:
-        - name: config
-          configMap:
-            name: "{{ .Values.queryService.name }}-config"
+            - name: LOG_LEVEL
+              value: "{{ .Values.queryService.env.LOG_LEVEL }}"
+            - name: HTTP_ADDR
+              value: "{{ .Values.queryService.env.HTTP_ADDR }}"
+            - name: METRICS_ADDR
+              value: "{{ .Values.queryService.env.METRICS_ADDR }}"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres-password

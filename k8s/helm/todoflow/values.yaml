@@ -4,7 +4,7 @@ commandService:
   name: command-service
   image:
     repository: furlingene/command-service
-    tag: v0.1.13
+    tag: latest
 
   service:
     port: 8080
@@ -15,7 +15,6 @@ commandService:
     LOG_LEVEL: debug
     HTTP_ADDR: ":8080"
     METRICS_ADDR: ":9090"
-    NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
 
 domainProcessor:
   name: domain-processor
@@ -24,7 +23,6 @@ domainProcessor:
     tag: latest
   env:
     ENV: production
-    NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
     LOG_LEVEL: debug
     METRICS_ADDR: ":9090"
 
@@ -43,9 +41,7 @@ projectionWorker:
   env:
     ENV: production
     LOG_LEVEL: debug
-    DATABASE_URL: "postgres://postgres:pass@postgres.db.svc.cluster.local:5432/todos?sslmode=disable"
     METRICS_ADDR: ":9090"
-    NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
 
 queryService:
   name: query-service
@@ -60,7 +56,6 @@ queryService:
   env:
     ENV: production
     LOG_LEVEL: debug
-    DATABASE_URL: "postgres://postgres:pass@postgres.db.svc.cluster.local:5432/todos?sslmode=disable"
     METRICS_ADDR: ":9090"
     HTTP_ADDR: ":8080"
 
@@ -79,4 +74,3 @@ sseUpdates:
     LOG_LEVEL: debug
     METRICS_ADDR: ":9090"
     HTTP_ADDR: ":8080"
-    NATS_URL: "nats://nats.messaging.svc.cluster.local:4222"
