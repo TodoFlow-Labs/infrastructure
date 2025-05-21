@@ -5,13 +5,17 @@ auth:
   existingSecret: postgres-secret
   secretKeys:
     adminPasswordKey: postgres-password
+    userPasswordKey: postgres-password
   enablePostgresUser: true
+  user: authentik
+
+
 
 metrics:
   enabled: true
   serviceMonitor:
     enabled: false
-  
+
 primary:
   persistence:
     enabled: true
@@ -56,3 +60,6 @@ primary:
         CREATE INDEX IF NOT EXISTS todo_search_idx ON todo USING GIN (search_vector);
 
         SELECT '✅ init done (with trigger)' AS status;
+
+        CREATE DATABASE authentik;
+        GRANT ALL PRIVILEGES ON DATABASE authentik TO authentik;

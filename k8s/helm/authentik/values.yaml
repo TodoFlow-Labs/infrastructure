@@ -1,0 +1,27 @@
+server:
+  env:
+    - name: AUTHENTIK_SECRET_KEY
+      valueFrom:
+        secretKeyRef:
+          name: authentik-secret
+          key: secret-key
+    - name: AUTHENTIK_POSTGRESQL__HOST
+      value: postgres.db.svc.cluster.local:5432
+    - name: AUTHENTIK_POSTGRESQL__NAME
+      value: authentik
+    - name: AUTHENTIK_POSTGRESQL__USER
+      value: authentik
+    - name: AUTHENTIK_POSTGRESQL__PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: authentik-secret
+          key: db-password
+
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  hosts:
+    - host: auth.local
+      paths:
+        - path: /
+          pathType: Prefix
