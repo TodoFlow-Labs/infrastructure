@@ -4,7 +4,7 @@ authentik:
   postgresql:
       host: postgres.db.svc.cluster.local
       name: "authentik"
-      user: "authentik"
+      user: "postgres"
       port: 5432
 server:
   env:
