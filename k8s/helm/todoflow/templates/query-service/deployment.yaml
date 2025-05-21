@@ -28,4 +28,4 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: todoflow-secret
-                  key: postgres-url
+                  key: database-url
