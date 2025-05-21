@@ -30,6 +30,3 @@ server:
     ingressClassName: traefik
     hosts:
       - host: auth.local
-        paths:
-          - path: /
-            pathType: Prefix
