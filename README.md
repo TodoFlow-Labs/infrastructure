@@ -87,7 +87,6 @@ kubectl create secret generic postgres-secret \
   --from-literal=password=<pass>  \
   --from-literal=postgres-password=<pass>  \
   --from-literal=database=todos \
-  --from-literal=database-url='postgres://postgres:<pass>@postgres.db.svc.cluster.local:5432/todos?sslmode=disable' \
   --namespace=db \
   --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/postgres-sealedsecret.yaml
 ```
@@ -102,10 +101,11 @@ kubectl create secret generic grafana-secret \
 ```
 
 
-### Create Sealed Secret for nats
+### Create Sealed Secret for Todoflow
 ```bash
-kubectl create secret generic nats-secret \
+kubectl create secret generic todoflow-secret \
   --from-literal=nats-url='nats://nats.messaging.svc.cluster.local:4222' \
-  --namespace=messaging \
-  --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/nats-sealedsecret.yaml
+  --from-literal=database-url='postgres://postgres:<pass>@postgres.db.svc.cluster.local:5432/todos?sslmode=disable' \
+  --namespace=todoflow \
+  --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/todoflow-sealedsecret.yaml
 ```

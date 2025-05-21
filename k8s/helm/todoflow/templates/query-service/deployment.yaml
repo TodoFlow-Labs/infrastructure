@@ -27,5 +27,5 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
+                  name: todoflow-secret
                   key: postgres-url

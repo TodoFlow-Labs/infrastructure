@@ -27,6 +27,6 @@ spec:
             - name: NATS_URL
               valueFrom:
                 secretKeyRef:
-                  name: nats-secret
+                  name: todoflow-secret
                   key: nats-url
             -
