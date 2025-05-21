@@ -7,11 +7,11 @@ authentik:
       port: 5432
 server:
   env:
-  #   - name: AUTHENTIK_SECRET_KEY
-  #     valueFrom:
-  #       secretKeyRef:
-  #         name: authentik-secret
-  #         key: authentik-key
+    - name: AUTHENTIK_SECRET_KEY
+      valueFrom:
+        secretKeyRef:
+          name: authentik-secret
+          key: authentik-key
   #   - name: AUTHENTIK_POSTGRESQL__HOST
   #     value: postgres.db.svc.cluster.local
   #   - name: AUTHENTIK_POSTGRESQL__NAME
