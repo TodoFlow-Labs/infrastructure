@@ -6,6 +6,7 @@ authentik:
       host: postgres.db.svc.cluster.local
       name: "authentik"
       user: "postgres"
+      password: "pass"
       port: 5432
 server:
   env:
