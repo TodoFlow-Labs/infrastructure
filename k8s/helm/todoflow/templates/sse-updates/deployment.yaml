@@ -24,9 +24,9 @@ spec:
               value: "{{ .Values.sseUpdates.env.HTTP_ADDR }}"
             - name: METRICS_ADDR
               value: "{{ .Values.sseUpdates.env.METRICS_ADDR }}"
-            - name: DATABASE_URL
+            - name: NATS_URL
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
-                  key: postgres-url
+                  name: nats-secret
+                  key: nats-url
             -

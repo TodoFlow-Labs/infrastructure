@@ -24,7 +24,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: postgres-secret
-                  key: postgres-password
+                  key: postgres-url
             - name: METRICS_ADDR
               value: "{{ .Values.projectionWorker.env.METRICS_ADDR }}"
             - name: NATS_URL
