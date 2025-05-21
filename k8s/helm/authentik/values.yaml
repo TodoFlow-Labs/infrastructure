@@ -29,4 +29,4 @@ server:
     enabled: true
     ingressClassName: traefik
     hosts:
-      - host: auth.local
+      - auth.local
