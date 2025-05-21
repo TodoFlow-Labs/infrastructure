@@ -4,7 +4,7 @@ server:
       valueFrom:
         secretKeyRef:
           name: authentik-secret
-          key: secret-key
+          key: authentik-key
     - name: AUTHENTIK_POSTGRESQL__HOST
       value: postgres.db.svc.cluster.local:5432
     - name: AUTHENTIK_POSTGRESQL__NAME
