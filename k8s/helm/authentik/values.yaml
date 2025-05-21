@@ -1,4 +1,5 @@
-
+redis:
+    enabled: true
 authentik:
   postgresql:
       host: postgres.db.svc.cluster.local
