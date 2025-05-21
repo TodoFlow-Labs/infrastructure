@@ -1,6 +1,7 @@
 redis:
     enabled: true
 authentik:
+  secret_key: d40cc7ac3150f51470dcb7d1dbd653514dab0e8072465ea39e620ecfdb28a2dc
   postgresql:
       host: postgres.db.svc.cluster.local
       name: "authentik"
