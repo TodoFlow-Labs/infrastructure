@@ -111,11 +111,31 @@ kubectl create secret generic authentik-secret \
 ```
 
 ```sql
-CREATE USER authentik WITH PASSWORD <pass>;
+-- Create the user
+CREATE USER authentik WITH PASSWORD 'your_secure_password';
+
+-- Create the database and set owner
 CREATE DATABASE authentik OWNER authentik;
+
+-- Connect to the authentik database
+\c authentik;
+
+-- Grant all privileges on the database
 GRANT ALL PRIVILEGES ON DATABASE authentik TO authentik;
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-GRANT USAGE ON SCHEMA public TO authentik;
+
+-- Grant privileges on the public schema
+GRANT ALL ON SCHEMA public TO authentik;
+GRANT CREATE ON SCHEMA public TO authentik;
+
+-- Grant privileges on all tables in public schema (current and future)
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO authentik;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO authentik;
+GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO authentik;
+
+-- Set default privileges for future objects
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO authentik;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO authentik;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON FUNCTIONS TO authentik;
 ```
 
 
