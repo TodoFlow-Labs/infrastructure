@@ -84,34 +84,34 @@ worker:
     requests:
       cpu: 50m
       memory: 128Mi
-    env:
-      - name: AUTHENTIK_SECRET_KEY
-        valueFrom:
-          secretKeyRef:
-            name: authentik-secret
-            key: authentik-key
-      - name: AUTHENTIK_POSTGRESQL__HOST
-        value: postgres.db.svc.cluster.local
-      - name: AUTHENTIK_POSTGRESQL__NAME
-        value: authentik
-      - name: AUTHENTIK_POSTGRESQL__USER
-        value: authentik
-      - name: AUTHENTIK_POSTGRESQL__PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: authentik-secret
-            key: db-password
-      - name: AUTHENTIK_REDIS__PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: authentik-secret
-            key: redis-password
-      - name: AUTHENTIK_LOG_LEVEL
-        value: info
-      - name: AUTHENTIK_ERROR_REPORTING__ENABLED
-        value: "false"
-      - name: AUTHENTIK_DISABLE_UPDATE_CHECK
-        value: "true"
+  env:
+    - name: AUTHENTIK_SECRET_KEY
+      valueFrom:
+        secretKeyRef:
+          name: authentik-secret
+          key: authentik-key
+    - name: AUTHENTIK_POSTGRESQL__HOST
+      value: postgres.db.svc.cluster.local
+    - name: AUTHENTIK_POSTGRESQL__NAME
+      value: authentik
+    - name: AUTHENTIK_POSTGRESQL__USER
+      value: authentik
+    - name: AUTHENTIK_POSTGRESQL__PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: authentik-secret
+          key: db-password
+    - name: AUTHENTIK_REDIS__PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: authentik-secret
+          key: redis-password
+    - name: AUTHENTIK_LOG_LEVEL
+      value: info
+    - name: AUTHENTIK_ERROR_REPORTING__ENABLED
+      value: "false"
+    - name: AUTHENTIK_DISABLE_UPDATE_CHECK
+      value: "true"
 
   # Security context for workers
   securityContext:
