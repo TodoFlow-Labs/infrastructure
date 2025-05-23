@@ -105,8 +105,17 @@ kubectl create secret generic grafana-secret \
 kubectl create secret generic authentik-secret \
   --from-literal=authentik-key="$(openssl rand -hex 32)" \
   --from-literal=db-password=<pass> \
+  --from-literal=redis-password=<pass> \
   --namespace=authentik \
   --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/authentik-sealedsecret.yaml
+```
+
+```sql
+CREATE USER authentik WITH PASSWORD <pass>;
+CREATE DATABASE authentik OWNER authentik;
+GRANT ALL PRIVILEGES ON DATABASE authentik TO authentik;
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+GRANT USAGE ON SCHEMA public TO authentik;
 ```
 
 

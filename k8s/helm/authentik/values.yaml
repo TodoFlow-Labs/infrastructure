@@ -1,34 +1,106 @@
 redis:
+  enabled: true
+  auth:
     enabled: true
+    existingSecret: authentik-secret
+    existingSecretPasswordKey: redis-password
+
 authentik:
-  secret_key: d40cc7ac3150f51470dcb7d1dbd653514dab0e8072465ea39e620ecfdb28a2dc
   postgresql:
-      host: postgres.db.svc.cluster.local
-      name: "authentik"
-      user: "postgres"
-      password: "pass"
-      port: 5432
+    host: postgres.db.svc.cluster.local
+    name: "authentik"
+    user: "authentik"
+    port: 5432
+
 server:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+
   env:
     - name: AUTHENTIK_SECRET_KEY
       valueFrom:
         secretKeyRef:
           name: authentik-secret
           key: authentik-key
-  #   - name: AUTHENTIK_POSTGRESQL__HOST
-  #     value: postgres.db.svc.cluster.local
-  #   - name: AUTHENTIK_POSTGRESQL__NAME
-  #     value: authentik
-  #   - name: AUTHENTIK_POSTGRESQL__USER
-  #     value: authentik
+    - name: AUTHENTIK_POSTGRESQL__HOST
+      value: postgres.db.svc.cluster.local
+    - name: AUTHENTIK_POSTGRESQL__NAME
+      value: authentik
+    - name: AUTHENTIK_POSTGRESQL__USER
+      value: authentik
     - name: AUTHENTIK_POSTGRESQL__PASSWORD
       valueFrom:
         secretKeyRef:
           name: authentik-secret
           key: db-password
+    - name: AUTHENTIK_REDIS__PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: authentik-secret
+          key: redis-password
+    - name: AUTHENTIK_LOG_LEVEL
+      value: info
+    - name: AUTHENTIK_ERROR_REPORTING__ENABLED
+      value: "false"
+    - name: AUTHENTIK_DISABLE_UPDATE_CHECK
+      value: "true"
 
   ingress:
     enabled: true
     ingressClassName: traefik
     hosts:
-      - auth.local
+      - host: auth.local
+        paths:
+          - path: /
+            pathType: Prefix
+    # tls:
+    #   - secretName: authentik-tls
+    #     hosts:
+    #       - auth.local
+    # annotations:
+    #   traefik.ingress.kubernetes.io/router.tls: "true"
+    #   traefik.ingress.kubernetes.io/router.middlewares: "authentik-headers@kubernetescrd"
+
+worker:
+  # Resource limits for workers
+  resources:
+    limits:
+      cpu: 300m
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 128Mi
+
+  # Security context for workers
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+
+# Pod Security Standards
+podSecurityContext:
+  fsGroup: 1000
+
+# Service Account
+serviceAccount:
+  create: true
+  annotations: {}
+  name: authentik
