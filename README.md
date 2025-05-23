@@ -100,45 +100,6 @@ kubectl create secret generic grafana-secret \
   --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/grafana-sealedsecret.yaml
 ```
 
-### Create Sealed Secret for Authentik
-```bash
-kubectl create secret generic authentik-secret \
-  --from-literal=authentik-key="$(openssl rand -hex 32)" \
-  --from-literal=db-password=<pass> \
-  --from-literal=redis-password=<pass> \
-  --namespace=authentik \
-  --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/authentik-sealedsecret.yaml
-```
-
-```sql
--- Create the user
-CREATE USER authentik WITH PASSWORD 'your_secure_password';
-
--- Create the database and set owner
-CREATE DATABASE authentik OWNER authentik;
-
--- Connect to the authentik database
-\c authentik;
-
--- Grant all privileges on the database
-GRANT ALL PRIVILEGES ON DATABASE authentik TO authentik;
-
--- Grant privileges on the public schema
-GRANT ALL ON SCHEMA public TO authentik;
-GRANT CREATE ON SCHEMA public TO authentik;
-
--- Grant privileges on all tables in public schema (current and future)
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO authentik;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO authentik;
-GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO authentik;
-
--- Set default privileges for future objects
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO authentik;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO authentik;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON FUNCTIONS TO authentik;
-```
-
-
 ### Create Sealed Secret for Todoflow
 ```bash
 kubectl create secret generic todoflow-secret \
