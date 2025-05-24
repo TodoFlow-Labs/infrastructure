@@ -9,6 +9,8 @@ spec:
   routes:
     - match: Host(`{{ .Values.IngressRoute.host }}`) && Method(`GET`) && PathPrefix(`/todos`)
       kind: Rule
+      middlewares:
+            - name: {{ .Values.supabaseJwtProxy.name }}
       services:
         - name: {{ .Values.queryService.name }}
           port: 80

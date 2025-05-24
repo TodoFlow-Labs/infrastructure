@@ -1,0 +1,10 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ .Values.supabaseJwtProxy.name }}
+spec:
+  forwardAuth:
+    address: "http://{{ .Values.supabaseJwtProxy.name }}.todoflow.svc.cluster.local/verify"
+    trustForwardHeader: true
+    authResponseHeaders:
+      - X-User-ID
