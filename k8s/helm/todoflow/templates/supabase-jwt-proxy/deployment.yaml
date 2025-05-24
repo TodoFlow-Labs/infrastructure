@@ -22,6 +22,8 @@ spec:
               value: "{{ .Values.supabaseJwtProxy.env.LOG_LEVEL }}"
             - name: METRICS_ADDR
               value: "{{ .Values.supabaseJwtProxy.env.METRICS_ADDR }}"
+            - name: HTTP_ADDR
+              value: "{{ .Values.supabaseJwtProxy.env.HTTP_ADDR }}"
             - name: SUPABASE_URL
               valueFrom:
                 secretKeyRef:
