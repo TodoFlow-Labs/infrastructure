@@ -14,14 +14,14 @@ spec:
     spec:
       containers:
         - name: {{ .Values.supabaseJwtProxy.name }}
-          image: "{{ .Values.supabaseJwtProxy.image }}:{{ .Values.supabaseJwtProxy.tag }}"
+          image: "{{ .Values.supabaseJwtProxy.image.repository }}:{{ .Values.supabaseJwtProxy.image.tag }}"
           env:
             - name: ENV
-              value: "{{ .Values.domainProcessor.env.ENV }}"
+              value: "{{ .Values.supabaseJwtProxy.env.ENV }}"
             - name: LOG_LEVEL
-              value: "{{ .Values.domainProcessor.env.LOG_LEVEL }}"
+              value: "{{ .Values.supabaseJwtProxy.env.LOG_LEVEL }}"
             - name: METRICS_ADDR
-              value: "{{ .Values.domainProcessor.env.METRICS_ADDR }}"
+              value: "{{ .Values.supabaseJwtProxy.env.METRICS_ADDR }}"
             - name: SUPABASE_URL
               valueFrom:
                 secretKeyRef:
