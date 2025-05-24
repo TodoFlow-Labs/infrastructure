@@ -16,11 +16,15 @@ spec:
           port: 80
     - match: Host(`{{ .Values.IngressRoute.host }}`) && (Method(`POST`) || Method(`PUT`) || Method(`DELETE`)) && PathPrefix(`/todos`)
       kind: Rule
+      middlewares:
+            - name: {{ .Values.supabaseJwtProxy.name }}
       services:
         - name: {{ .Values.commandService.name }}
           port: 80
     - match: Host(`{{ .Values.IngressRoute.host }}`) && PathPrefix(`/events`)
       kind: Rule
+      middlewares:
+            - name: {{ .Values.supabaseJwtProxy.name }}
       services:
         - name: {{ .Values.sseUpdates.name }}
           port: 80
