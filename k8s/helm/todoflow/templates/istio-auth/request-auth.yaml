@@ -8,5 +8,5 @@ spec:
       app: {{ .Values.commandService.name }}
   jwtRules:
     - issuer: {{ .Values.auth.supabase_url}}
-      jwksUri: "{{ .Values.auth.supabase_url}}/auth/v1/keys"
+      jwksUri: "{{ .Values.auth.supabase_url}}/.well-known/jwks.json"
       forwardPayloadHeader: x-jwt-payload
