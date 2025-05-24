@@ -75,6 +75,18 @@ sseUpdates:
     METRICS_ADDR: ":9090"
     HTTP_ADDR: ":8080"
 
-auth:
-  name: supabase-auth
-  supabase_url: https://ofnnslchptcucqxpxhlh.supabase.co
+supabaseJwtProxy:
+  name: supabase-jwt-proxy
+  image:
+    repository: furlingene/supabase-jwt-proxy
+    tag: latest
+
+  service:
+    port: 8080
+    metricsPort: 9090
+
+  env:
+    ENV: production
+    LOG_LEVEL: debug
+    METRICS_ADDR: ":9090"
+    HTTP_ADDR: ":8080"

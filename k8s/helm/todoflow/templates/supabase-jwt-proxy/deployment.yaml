@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.supabaseJwtProxy.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.supabaseJwtProxy.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.supabaseJwtProxy.name }}
+    spec:
+      containers:
+        - name: {{ .Values.supabaseJwtProxy.name }}
+          image: "{{ .Values.supabaseJwtProxy.image }}:{{ .Values.supabaseJwtProxy.tag }}"
+          env:
+            - name: ENV
+              value: "{{ .Values.domainProcessor.env.ENV }}"
+            - name: LOG_LEVEL
+              value: "{{ .Values.domainProcessor.env.LOG_LEVEL }}"
+            - name: METRICS_ADDR
+              value: "{{ .Values.domainProcessor.env.METRICS_ADDR }}"
+            - name: SUPABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: todoflow-secret
+                  key: supabase-url
+            - name: SUPABASE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: todoflow-secret
+                  key: supabase-api-key

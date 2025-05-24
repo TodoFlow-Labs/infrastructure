@@ -88,7 +88,7 @@ kubectl create secret generic postgres-secret \
   --from-literal=postgres-password=<pass>  \
   --from-literal=database=todos \
   --namespace=db \
-  --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/postgres-sealedsecret.yaml
+  --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/secrets/postgres-sealedsecret.yaml
 ```
 
 ### Create Sealed Secret for Grafana
@@ -97,14 +97,16 @@ kubectl create secret generic grafana-secret \
   --from-literal=admin-user=admin \
   --from-literal=admin-password=<pass>  \
   --namespace=monitoring \
-  --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/grafana-sealedsecret.yaml
+  --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/secrets/grafana-sealedsecret.yaml
 ```
 
 ### Create Sealed Secret for Todoflow
 ```bash
 kubectl create secret generic todoflow-secret \
-  --from-literal=nats-url='nats://nats.messaging.svc.cluster.local:4222' \
-  --from-literal=database-url='postgres://postgres:<pass>@postgres.db.svc.cluster.local:5432/todos?sslmode=disable' \
+  --from-literal=nats-url=nats://nats.messaging.svc.cluster.local:4222 \
+  --from-literal=database-url=postgres://postgres:<pass>@postgres.db.svc.cluster.local:5432/todos?sslmode=disable \
+  --from-literal=supabase-api-key=ey... \
+  --from-literal=supabase-url=https://...supabase.co \
   --namespace=todoflow \
-  --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/todoflow-sealedsecret.yaml
+  --dry-run=client -o yaml | kubeseal --format yaml > k8s/helm/todoflow/templates/sealedsecret.yaml
 ```

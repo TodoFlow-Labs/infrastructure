@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.supabaseJwtProxy.name }}
+spec:
+  selector:
+    app: {{ .Values.supabaseJwtProxy.name }}
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: {{ .Values.supabaseJwtProxy.service.port }}
+    - name: metrics
+      port: 9090
+      targetPort: {{ .Values.supabaseJwtProxy.service.metricsPort }}
