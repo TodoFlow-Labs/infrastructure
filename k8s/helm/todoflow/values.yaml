@@ -74,3 +74,7 @@ sseUpdates:
     LOG_LEVEL: debug
     METRICS_ADDR: ":9090"
     HTTP_ADDR: ":8080"
+
+auth:
+  name: supabase-auth
+  supabase_url: https://ofnnslchptcucqxpxhlh.supabase.co

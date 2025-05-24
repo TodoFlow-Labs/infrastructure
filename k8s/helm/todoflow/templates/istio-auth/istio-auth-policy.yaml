@@ -2,11 +2,10 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: allow-authenticated
-  namespace: todoflow
 spec:
   selector:
     matchLabels:
-      app: command-service
+      app: {{ .Values.commandService.name }}
   action: ALLOW
   rules:
     - from:
