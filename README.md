@@ -40,7 +40,7 @@ kubectl create secret generic grafana-secret \
   --dry-run=client -o yaml | kubeseal --format yaml > k8s/apps/secrets/grafana-sealedsecret.yaml
 ```
 
-### Create Sealed Secret for Todoflow, use your password instead of the 'pass'. Use supabase key and url.
+### Create Sealed Secret for Todoflow, use your password instead of the 'pass'. Use supabase key and url from supabase project for Auth.
 ```bash
 kubectl create secret generic todoflow-secret \
   --from-literal=nats-url=nats://nats.messaging.svc.cluster.local:4222 \
