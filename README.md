@@ -89,11 +89,10 @@ http://grafana.local
 ```
 
 ### Reach Todoflow UI
-```todoflow.local``` must be added to you DNS/hosts points to ip address of k8s server's loadbalancer
+```todoflow.local``` (or whatever is set at values.yaml) must be added to you DNS/hosts points to ip address of k8s server's loadbalancer
 ```bash
 http://todoflow.local
 ```
-
 
 ## API todoflow
 ### GET /todos, GET /todos/:id. GET /todos?q=<search word>&s=<size>&page=<page_number>
