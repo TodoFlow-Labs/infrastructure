@@ -1,0 +1,14 @@
+global:
+  proxy:
+    accessLogEncoding: JSON
+
+meshConfig:
+  defaultConfig:
+    proxyMetadata:
+      ISTIO_META_DNS_CAPTURE: "true"
+  enablePrometheusMerge: true
+
+pilot:
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "15090"
