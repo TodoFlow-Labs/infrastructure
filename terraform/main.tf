@@ -34,6 +34,9 @@ resource "libvirt_domain" "ubuntu_vm" {
   name   = var.vm_hostname
   memory = 8192
   vcpu   = 4
+  cpu {
+    mode = "host-passthrough"
+  }
 
   cloudinit = libvirt_cloudinit_disk.cloudinit.id
 
