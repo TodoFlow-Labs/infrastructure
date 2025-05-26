@@ -1,4 +1,4 @@
-.PHONY: commit push expose-postgres expose-nats
+.PHONY: commit push expose-postgres expose-nats terraform-init terraform-apply terraform-destroy
 
 commit:
 	@echo "Committing changes..."
@@ -27,3 +27,15 @@ expose-postgres:
 expose-nats:
 	@echo "Forward ports for NATS"
 	kubectl port-forward svc/nats 4222:4222 -n messaging &
+
+terraform-init:
+	@echo "Initializing Terraform..."
+	cd terraform && terraform init
+
+terraform-apply:
+	@echo "Applying Terraform configuration..."
+	cd terraform && terraform apply -auto-approve
+
+terraform-destroy:
+	@echo "Destroying Terraform resources..."
+	cd terraform && terraform destroy -auto-approve
