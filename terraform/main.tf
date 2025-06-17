@@ -41,8 +41,9 @@ resource "libvirt_domain" "ubuntu_vm" {
   cloudinit = libvirt_cloudinit_disk.cloudinit.id
 
   network_interface {
-    bridge = "br0"
-  }
+      network_name   = "default"
+      wait_for_lease = true
+    }
 
   disk {
     volume_id = libvirt_volume.ubuntu_qcow2.id

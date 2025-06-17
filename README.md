@@ -44,9 +44,9 @@ kubectl create secret generic grafana-secret \
 ```bash
 kubectl create secret generic todoflow-secret \
   --from-literal=nats-url=nats://nats.messaging.svc.cluster.local:4222 \
-  --from-literal=database-url=postgres://postgres:pass@postgres.db.svc.cluster.local:5432/todos?sslmode=disable \
-  --from-literal=supabase-api-key=ey... \
-  --from-literal=supabase-url=https://...supabase.co \
+  --from-literal=database-url='postgres://postgres:pass@postgres.db.svc.cluster.local:5432/todos?sslmode=disable' \
+  --from-literal=supabase-api-key='ey...' \
+  --from-literal=supabase-url=https://....supabase.co \
   --namespace=todoflow \
   --dry-run=client -o yaml | kubeseal --format yaml > k8s/helm/todoflow/templates/sealedsecret.yaml
 ```

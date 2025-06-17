@@ -25,15 +25,15 @@ variable "ssh_private_key" {
 
 variable "metallb_ip_range" {
   description = "Metallb IP range"
-  default     = "192.168.0.25-192.168.0.28"
+  default     = "192.168.122.25-192.168.122.28"
 }
 
 variable "static_ip" {
   type    = string
-  default = "192.168.0.30"
+  default = "192.168.122.30"
 }
 
 variable "gateway_ip" {
   type    = string
-  default = "192.168.0.1"
+  default = "192.168.122.1"
 }
