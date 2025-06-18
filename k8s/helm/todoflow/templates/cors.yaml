@@ -7,7 +7,7 @@ spec:
   headers:
     accessControlAllowOriginList:
       - "http://localhost:5173"
-      - "https://your-production-domain.com" # if needed
+      - "http://todoflow.local"
     accessControlAllowMethods:
       - "GET"
       - "POST"
