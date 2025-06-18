@@ -47,7 +47,7 @@ queryService:
   name: query-service
   image:
     repository: furlingene/query-service
-    tag: latest
+    tag: v0.1.10
 
   service:
     port: 8080
