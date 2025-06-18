@@ -10,6 +10,7 @@ spec:
     - match: Host(`{{ .Values.IngressRoute.host }}`) && Method(`GET`) && PathPrefix(`/todos`)
       kind: Rule
       middlewares:
+            - name: cors
             - name: {{ .Values.supabaseJwtProxy.name }}
       services:
         - name: {{ .Values.queryService.name }}
@@ -17,6 +18,7 @@ spec:
     - match: Host(`{{ .Values.IngressRoute.host }}`) && (Method(`POST`) || Method(`PUT`) || Method(`DELETE`)) && PathPrefix(`/todos`)
       kind: Rule
       middlewares:
+            - name: cors
             - name: {{ .Values.supabaseJwtProxy.name }}
       services:
         - name: {{ .Values.commandService.name }}
@@ -24,6 +26,7 @@ spec:
     - match: Host(`{{ .Values.IngressRoute.host }}`) && PathPrefix(`/events`)
       kind: Rule
       middlewares:
+            - name: cors
             - name: {{ .Values.supabaseJwtProxy.name }}
       services:
         - name: {{ .Values.sseUpdates.name }}

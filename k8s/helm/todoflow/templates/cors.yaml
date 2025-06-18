@@ -1,0 +1,23 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: cors
+  namespace: todoflow
+spec:
+  headers:
+    accessControlAllowOriginList:
+      - "http://localhost:5173"
+      - "https://your-production-domain.com" # if needed
+    accessControlAllowMethods:
+      - "GET"
+      - "POST"
+      - "PUT"
+      - "DELETE"
+      - "OPTIONS"
+    accessControlAllowHeaders:
+      - "Accept"
+      - "Authorization"
+      - "Content-Type"
+      - "X-User-ID"
+    accessControlAllowCredentials: true
+    accessControlMaxAge: 300
