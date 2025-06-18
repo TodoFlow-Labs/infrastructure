@@ -6,8 +6,7 @@ metadata:
 spec:
   headers:
     accessControlAllowOriginList:
-      - "http://localhost:5173"
-      - "http://todoflow.local"
+      - "*"
     accessControlAllowMethods:
       - "GET"
       - "POST"
@@ -15,9 +14,6 @@ spec:
       - "DELETE"
       - "OPTIONS"
     accessControlAllowHeaders:
-      - "Accept"
-      - "Authorization"
-      - "Content-Type"
-      - "X-User-ID"
-    accessControlAllowCredentials: true
+      - "*"
     accessControlMaxAge: 300
+    addVaryHeader: true
